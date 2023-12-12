@@ -12,19 +12,10 @@ outputs:
 runs:
   using: "composite"
   steps:
-    # - name: Debug Info
-    #   run: |
-    #     ls -R
-    #     echo "Current directory: $(pwd)"
-    #     echo "Contents of current directory: $(ls)"
-    #   shell: bash
     - name: Check inputs
       id: check
       run: bash ${{ github.action_path}}/hello.sh
       shell: bash
-    - name: Display Error Annotation
-      if: needs.check.outputs.missing_input == 'true'
-      run: echo "Missing required input: who-to-greet" >> $GITHUB_ENV
     - run: echo Hello ${{ inputs.who-to-greet }}.
       shell: bash
     - id: random-number-generator
