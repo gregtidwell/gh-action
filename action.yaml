@@ -5,7 +5,6 @@ inputs:
     description: "Who to greet"
     required: true
 outputs:
-  missing_input: ${{ needs.check.outputs.missing_input }}
   random-number:
     description: "Random number"
     value: ${{ steps.random-number-generator.outputs.random-number }}
