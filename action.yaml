@@ -11,6 +11,8 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - run: hello.sh
+      shell: bash
     - run: echo Hello ${{ inputs.who-to-greet }}.
       shell: bash
     - id: random-number-generator
