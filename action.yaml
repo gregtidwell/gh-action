@@ -5,7 +5,7 @@ inputs:
     description: "Who to greet"
     required: true
 outputs:
-  missing_input: ${{ steps.check.outputs.missing_input }}
+  missing_input: ${{ needs.check.outputs.missing_input }}
   random-number:
     description: "Random number"
     value: ${{ steps.random-number-generator.outputs.random-number }}
@@ -23,7 +23,7 @@ runs:
       run: bash ${{ github.action_path}}/hello.sh
       shell: bash
     - name: Display Error Annotation
-      if: steps.check.outputs.missing_input == 'true'
+      if: needs.check.outputs.missing_input == 'true'
       run: echo "Missing required input: who-to-greet" >> $GITHUB_ENV
     - run: echo Hello ${{ inputs.who-to-greet }}.
       shell: bash
