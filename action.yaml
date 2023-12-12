@@ -11,14 +11,14 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Debug Info
-      run: |
-        ls -R
-        echo "Current directory: $(pwd)"
-        echo "Contents of current directory: $(ls)"
-      shell: bash
+    # - name: Debug Info
+    #   run: |
+    #     ls -R
+    #     echo "Current directory: $(pwd)"
+    #     echo "Contents of current directory: $(ls)"
+    #   shell: bash
     - name: Check inputs
-      run: bash ./hello.sh
+      run: bash ${{ github.action_path}}/hello.sh
       shell: bash
     - run: echo Hello ${{ inputs.who-to-greet }}.
       shell: bash
