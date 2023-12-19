@@ -13,9 +13,3 @@ semversioner changelog > CHANGELOG.md
 
 echo "Replace version '$previous_version' to '$new_version' in README.md ..."
 sed -i "s/:$previous_version/:$new_version/g" README.md
-
-echo "Replace version '$previous_version' to '$new_version' in pipe.yml ..."
-sed -i "s/:$previous_version/:$new_version/g" pipe.yml
-
-echo "Replace version '$previous_version' to '$new_version' in pipe.sh ..."
-sed -i "s/$previous_version/$new_version/g" pipe/pipe.sh

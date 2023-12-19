@@ -1,5 +1,7 @@
 ## Usage
 
+gh-action@0.0.1
+
 ### Inputs
 
 | Name  | Type  | Required | Description  |
