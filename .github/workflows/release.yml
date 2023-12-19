@@ -11,7 +11,7 @@ jobs:
         uses: actions/checkout@v4  
       - name: Run versioning scripts
         run: |
-          pip install semversioner==0.6.16
+          pip install semversioner==1.7.0
           chmod +x ./ci-scripts/*.sh
           ./ci-scripts/bump-version.sh
           ./ci-scripts/git-commit.sh
