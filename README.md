@@ -1,6 +1,6 @@
 ## Usage
 
-gh-action@0.0.1
+gh-action@0.0.2
 
 ### Inputs
 
