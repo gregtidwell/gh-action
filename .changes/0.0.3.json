@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "description": "update semversioner version",
+      "type": "patch"
+    }
+  ],
+  "created_at": "2023-12-19T21:49:17.455613+00:00",
+  "version": "0.0.3"
+}

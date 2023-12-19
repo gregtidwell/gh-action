@@ -1,6 +1,10 @@
 # Changelog
 Note: version releases in the 0.x.y range may introduce breaking changes.
 
+## 0.0.3
+
+- patch: update semversioner version
+
 ## 0.0.2
 
 - patch: update regex
@@ -9,4 +13,3 @@ Note: version releases in the 0.x.y range may introduce breaking changes.
 
 - patch: adding versioning and ci scripts
 - patch: updating ci-scripts
-
