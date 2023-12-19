@@ -8,8 +8,8 @@ set -e
 # Tag and push
 tag=$(semversioner current-version)
 
-git config --global user.email "greg@comediadesign.com"
-git config --global user.name "Greg Tidwell"
+# git config --global user.email "greg@comediadesign.com"
+# git config --global user.name "Greg Tidwell"
 git pull
 git add .
 git commit -m "Update files for new version '${tag}' [skip ci]"
