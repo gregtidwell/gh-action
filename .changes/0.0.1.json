@@ -1,0 +1,10 @@
+[
+  {
+    "description": "adding versioning and ci scripts",
+    "type": "patch"
+  },
+  {
+    "description": "updating ci-scripts",
+    "type": "patch"
+  }
+]
