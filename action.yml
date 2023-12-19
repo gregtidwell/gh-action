@@ -1,0 +1,79 @@
+name: 'Upload to Checks'
+description: 'Upload to checks'
+inputs:
+  account_id:
+    description: 'Checks account id that you can find in the settings page'
+    required: true
+  app_id:
+     description: 'application id'
+     required: true
+  service_account_base64:
+     description: 'Base64 encoded service account credentials'
+     required: true
+  binary_path:
+     description: 'path to your application archive (.apk, .abb or .ipa)'
+     required: true
+  version:
+    description: 'Checks CLI version to use'
+    required: false
+    default: 'latest'
+  generate_report:
+    description: 'Boolean to generate checks report'
+    required: false
+    default: true
+runs:
+  using: "composite"
+  steps:
+    - name: Validate inputs
+      run: bash ${{ github.action_path}}/validate.sh "${{ inputs.account_id }}" "${{ inputs.app_id }}" "${{ inputs.binary_path}}" "${{ inputs.service_account_base64 }}" 
+      shell: bash
+    - name: Gathering credentials
+      run: |
+        echo "Gathering credentials"
+        echo "${{ inputs.service_account_base64 }}" | base64 --decode > serviceaccount.json
+        echo "CHECKS_CREDENTIALS=$(pwd)/serviceaccount.json" >> "$GITHUB_ENV"
+      shell: bash
+    - name: Downloading checks CLI version ${{ inputs.version }}
+      run: | 
+        echo "Downloading checks CLI version ${{ inputs.version }}"
+        curl --compressed https://dl.google.com/checks/cli/${{ inputs.version }}/checks-linux -o checks
+        chmod +x checks
+        ./checks version
+      shell: bash
+    - name: Listing Checks apps
+      run: |
+        echo "Listing Checks apps"
+        ./checks apps list --account-id=${{ inputs.account_id }}
+      shell: bash
+    - name: Generating Checks report for App ID ${{ inputs.app_id }} for file ${{ inputs.binary_path }}
+      if: inputs.generate_report == 'true'
+      run: |
+        echo "Generating Checks report for App ID ${{ inputs.app_id }} for file ${{ inputs.binary_path }}"
+        ./checks report generate --binary-path=${{ inputs.binary_path }} --app-id=${{ inputs.app_id }} --account-id=${{ inputs.account_id }} --no-input --json --wait-and-print-report > checks_results.json
+      shell: bash
+    - name: Read JSON file
+      uses: actions/github-script@v6
+      if: inputs.generate_report == 'true'
+      with:
+          script: |
+              const fs = require('fs');
+              const json = fs.readFileSync('./checks_results.json', 'utf8');
+              const report = JSON.parse(json);
+
+              console.log(`Generated report name: ${report.name}`);
+              console.log(`Report console URL: ${report.resultsUri}`);
+
+              const failingChecks = [];
+              for (const check of report.checks) {
+                  if (check.severity.toString() === 'PRIORITY' && check.state.toString() === 'FAILED') {
+                      failingChecks.push(check);
+                  }
+              }
+
+              if (failingChecks.length > 0) {
+                  console.log(`${failingChecks.length} priority issue(s) detected: `);
+                  for (const check of failingChecks) {
+                      console.log(`Type: ${check.type}. Details: ${JSON.stringify(check)}`);
+                  }
+                  process.exit(1);
+              }
