@@ -12,4 +12,4 @@ echo "Generating CHANGELOG.md file..."
 semversioner changelog > CHANGELOG.md
 
 echo "Replace version '$previous_version' to '$new_version' in README.md ..."
-sed -i "s/:$previous_version/:$new_version/g" README.md
+sed -i "s/@$previous_version/@$new_version/g" README.md
